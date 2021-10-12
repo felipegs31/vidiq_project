@@ -8,7 +8,8 @@ const fetchPhotos = () => action(ActionTypes.FETCH_PHOTOS)
 const fetchPhotosSuccess = (photos: Photo[]) =>
   action(ActionTypes.FETCH_PHOTOS_SUCCESS, { photos })
 
-const fetchPhotosError = (errorMessage: string) => action(ActionTypes.FETCH_PHOTOS_ERROR, errorMessage)
+const fetchPhotosError = (errors: string) =>
+  action(ActionTypes.FETCH_PHOTOS_ERROR, errors)
 
 const setPagePhotos = (page: number) =>
   action(ActionTypes.SET_PAGE_PHOTOS, { page })

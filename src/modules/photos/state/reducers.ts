@@ -29,10 +29,9 @@ const fetchPhotosSuccess = (state: IPhotosState, action: ActionTypeTS): IPhotosS
   }
 }
 const fetchPhotosError = (state: IPhotosState, action: ActionTypeTS): IPhotosState => {
-  const { errors } = action.payload
   return {
     ...state,
-    errors,
+    errors: action.payload,
     loading: false,
   }
 }
