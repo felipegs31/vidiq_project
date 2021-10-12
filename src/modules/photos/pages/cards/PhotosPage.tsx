@@ -4,6 +4,7 @@ import { CardsContainer } from './styles';
 
 function PhotosPage() {
   
+
   return (
     <>
       <TabNavigator />
