@@ -19,8 +19,8 @@ const addFavorite = (photo: Photo) =>
 const removeFavorite = (photo: Photo) =>
   action(ActionTypes.REMOVE_FAVORITE, { photo })
 
-const setPhotosTab = (tab: EPhotoTabs) =>
-  action(ActionTypes.REMOVE_FAVORITE, { tab })
+const setTabPhotos = (tab: EPhotoTabs) =>
+  action(ActionTypes.SET_TAB_PHOTOS, { tab })
 
 
 export {
@@ -30,5 +30,5 @@ export {
   setPagePhotos,
   addFavorite,
   removeFavorite,
-  setPhotosTab
+  setTabPhotos
 }
