@@ -1,5 +1,4 @@
 import { HttpClient } from "common/http";
-import { PagedRequest } from "common/types";
 import { addTestingNetworkVariance } from "common/utilities/api-testing";
 import { IMAGE_PAGE_SIZE } from "../models/constants";
 import { Photo } from './../models/photo'
