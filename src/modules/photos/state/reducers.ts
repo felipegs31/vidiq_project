@@ -1,30 +1,45 @@
 import { EPhotoTabs } from '../models/EPhotoTabs'
 import { IPhotosState, ActionTypes, ActionTypeTS } from './types'
 import { isEmpty } from 'lodash'
+import { Photo } from '../models/photo'
 
 const initialState: IPhotosState = {
     photos: [],
 	  loading: false,
+    loadingNextPage: false,
 	  errors: '',
-	  page: 1,
-	  limit: 10,
+	  page: 0,
 	  tab: EPhotoTabs.ALL,
     favorites: {}
 }
 
 const fetchPhotos = (state: IPhotosState): IPhotosState => {
+
+  const favoritesLocalStorate = localStorage.getItem('favorites') || '{}'
+  const favorites = JSON.parse(favoritesLocalStorate)
+
   return {
     ...state,
     loading: true,
+    favorites,
     errors: ''
   }
 }
 
 const fetchPhotosSuccess = (state: IPhotosState, action: ActionTypeTS): IPhotosState => {
-  const { photos } = action.payload
+  let { photos, appendToArray } = action.payload
+  photos.forEach((photo: Photo) => {
+    photo.favorite = !isEmpty(state.favorites[photo.id])
+  });
+
+  if (appendToArray) {
+    photos = [ ...state.photos, ...photos]
+  }
+
   return {
     ...state,
     photos,
+    loadingNextPage: false,
     loading: false
   }
 }
@@ -32,16 +47,17 @@ const fetchPhotosError = (state: IPhotosState, action: ActionTypeTS): IPhotosSta
   return {
     ...state,
     errors: action.payload,
+    loadingNextPage: false,
     loading: false,
   }
 }
 
-const setPagePhotos = (state: IPhotosState, action: ActionTypeTS): IPhotosState => {
-  const { page } = action.payload
+const nextPagePhotos = (state: IPhotosState): IPhotosState => {
+
   return {
     ...state,
-    loading: true,
-    page
+    loadingNextPage: true,
+    page: state.page + 1
   }
 }
 
@@ -68,6 +84,8 @@ const toggleFavorite = (state: IPhotosState, action: ActionTypeTS): IPhotosState
       photosClone[photoIndex].favorite = false
     }
 
+    localStorage.setItem('favorites', JSON.stringify(favoritesClone))
+
     return {
       ...state,
       favorites: favoritesClone,
@@ -81,6 +99,8 @@ const toggleFavorite = (state: IPhotosState, action: ActionTypeTS): IPhotosState
       photosClone[photoIndex].favorite = true
     }
 
+    localStorage.setItem('favorites', JSON.stringify(favoritesClone))
+
     return {
       ...state,
       favorites: favoritesClone,
@@ -89,42 +109,6 @@ const toggleFavorite = (state: IPhotosState, action: ActionTypeTS): IPhotosState
   }
 
   
-}
-
-const addFavorite = (state: IPhotosState, action: ActionTypeTS): IPhotosState => {
-  const { photo } = action.payload
-
-  const favoritesClone = { ...state.favorites }
-  if (!isEmpty(favoritesClone[photo.id])) {
-    return {
-      ...state
-    }
-  }
-
-  favoritesClone[photo.id] = photo
-
-  return {
-    ...state,
-    favorites: favoritesClone
-  }
-}
-
-const removeFavorite = (state: IPhotosState, action: ActionTypeTS): IPhotosState => {
-  const { photo } = action.payload
-
-  const favoritesClone = { ...state.favorites }
-  if (isEmpty(favoritesClone[photo.id])) {
-    return {
-      ...state
-    }
-  }
-
-  delete favoritesClone[photo.id];
-
-  return {
-    ...state,
-    favorites: favoritesClone
-  }
 }
 
 
@@ -137,16 +121,12 @@ export const photosReducer = (state: IPhotosState = initialState,
 			return fetchPhotosSuccess(state, action)
     case ActionTypes.FETCH_PHOTOS_ERROR:
       return fetchPhotosError(state, action)
-    case ActionTypes.SET_PAGE_PHOTOS:
-      return setPagePhotos(state, action)
+    case ActionTypes.NEXT_PAGE_PHOTOS:
+      return nextPagePhotos(state)
     case ActionTypes.SET_TAB_PHOTOS:
       return setTabPhotos(state, action)
     case ActionTypes.TOGGLE_FAVORITE:
       return toggleFavorite(state, action)
-    case ActionTypes.ADD_FAVORITE:
-      return addFavorite(state, action)
-    case ActionTypes.REMOVE_FAVORITE:
-      return removeFavorite(state, action)
     default:
       return state
 	}

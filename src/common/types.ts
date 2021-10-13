@@ -6,6 +6,6 @@ export enum ResourceState {
 }
 
 export type PagedRequest = {
-  cursor: number;
+  page: number;
   pageSize: number;
 };

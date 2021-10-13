@@ -12,7 +12,6 @@ interface Props {
 function TabNavigator({selectedTab, hadleSelectTab}: Props) {
 
   const handleChange = (event: ChangeEvent<{}>, newValue: EPhotoTabs) => {
-    console.log('newValue', newValue)
     hadleSelectTab(newValue);
   };
 

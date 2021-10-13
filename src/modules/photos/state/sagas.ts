@@ -8,6 +8,7 @@ import { handleFetch } from './effects'
 function* watchFetchRequest(): Generator {
 	yield takeLatest([
 		ActionTypes.FETCH_PHOTOS,
+		ActionTypes.NEXT_PAGE_PHOTOS
 	], handleFetch)
 }
 

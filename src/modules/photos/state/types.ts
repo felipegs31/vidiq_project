@@ -7,7 +7,7 @@ export const ActionTypes = {
 	FETCH_PHOTOS_SUCCESS: '@@photos/FETCH_PHOTOS_SUCCESS',
 	FETCH_PHOTOS_ERROR: '@@photos/FETCH_PHOTOS_ERROR',
 
-	SET_PAGE_PHOTOS: '@@photos/SET_PAGE_PHOTOS',
+	NEXT_PAGE_PHOTOS: '@@photos/NEXT_PAGE_PHOTOS',
 
 	ADD_FAVORITE: '@@photos/ADD_FAVORITE',
 	TOGGLE_FAVORITE: '@@photos/TOGGLE_FAVORITE',
@@ -21,9 +21,9 @@ export const ActionTypes = {
 export interface IPhotosState {
 	readonly photos: Photo[]
 	readonly loading: boolean
+	readonly loadingNextPage: boolean
 	readonly errors: string
 	readonly page: number
-	readonly limit: number
 	readonly tab: EPhotoTabs,
 	readonly favorites: { [id: string] : Photo } 
 }

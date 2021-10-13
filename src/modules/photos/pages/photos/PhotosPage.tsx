@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { isEmpty } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Photo } from 'modules/photos/models/photo';
+import Button from '@material-ui/core/Button';
 
 function PhotosPage() {
   const dispatch = useDispatch()
@@ -17,6 +18,8 @@ function PhotosPage() {
   const loading = useSelector((state: IApplicationState) => state.photos.loading)
   const errors = useSelector((state: IApplicationState) => state.photos.errors)
   const favorites = useSelector((state: IApplicationState) => state.photos.favorites)
+  const loadingNextPage = useSelector((state: IApplicationState) => state.photos.loadingNextPage)
+
 
 
   const hadleSelectTab = (newTab: EPhotoTabs) => {
@@ -32,27 +35,38 @@ function PhotosPage() {
   }, [dispatch])
 
   const renderPhotos = () => {
-    return !errors ? 
-      !isEmpty(photos) && photos.map(photo => <Card key={photo.id} photo={photo} hadleSelectCard={hadleSelectCard}/> ) :
+    return !errors ?
+      !isEmpty(photos) && photos.map(photo => <Card key={photo.id} photo={photo} hadleSelectCard={hadleSelectCard} />) :
       <div>Error, try again</div>
   }
 
   const renderFavorites = () => {
-    return !isEmpty(favorites) && 
-      Object.keys(favorites).map(key => <Card key={favorites[key].id} photo={favorites[key]} hadleSelectCard={hadleSelectCard}/>)
+    return !isEmpty(favorites) &&
+      Object.keys(favorites).map(key => <Card key={favorites[key].id} photo={favorites[key]} hadleSelectCard={hadleSelectCard} />)
+  }
+
+  const loadMore = () => {
+    dispatch(actions.nextPagePhotos())
   }
 
   return (
     <>
-      <TabNavigator selectedTab={selectedTab} hadleSelectTab={hadleSelectTab}/>
-      {selectedTab === EPhotoTabs.ALL && <CardsContainer>
-        {loading ? <CircularProgress /> : renderPhotos() }
-      </CardsContainer> }
+      <TabNavigator selectedTab={selectedTab} hadleSelectTab={hadleSelectTab} />
+      {selectedTab === EPhotoTabs.ALL &&
+        <>
+          <CardsContainer>
+            {loading ? <CircularProgress /> : renderPhotos()}
+          </CardsContainer>
+          <Button variant="outlined" color="primary" onClick={loadMore} disabled={loadingNextPage}>
+            Load More
+          </Button>
+        </>
+      }
       {selectedTab === EPhotoTabs.FAVORITES && <CardsContainer>
-        { renderFavorites() }
-      </CardsContainer> }
+        {renderFavorites()}
+      </CardsContainer>}
     </>
   );
 }
-  
+
 export default PhotosPage;

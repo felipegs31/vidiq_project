@@ -5,14 +5,14 @@ import { ActionTypes } from './types'
 
 const fetchPhotos = () => action(ActionTypes.FETCH_PHOTOS)
 
-const fetchPhotosSuccess = (photos: Photo[]) =>
-  action(ActionTypes.FETCH_PHOTOS_SUCCESS, { photos })
+const fetchPhotosSuccess = (photos: Photo[], appendToArray: boolean) =>
+  action(ActionTypes.FETCH_PHOTOS_SUCCESS, { photos, appendToArray })
 
 const fetchPhotosError = (errors: string) =>
   action(ActionTypes.FETCH_PHOTOS_ERROR, errors)
 
-const setPagePhotos = (page: number) =>
-  action(ActionTypes.SET_PAGE_PHOTOS, { page })
+const nextPagePhotos = () =>
+  action(ActionTypes.NEXT_PAGE_PHOTOS)
 
 const toggleFavorite = (photo: Photo) =>
   action(ActionTypes.TOGGLE_FAVORITE, { photo })
@@ -31,7 +31,7 @@ export {
   fetchPhotos,
   fetchPhotosSuccess,
   fetchPhotosError,
-  setPagePhotos,
+  nextPagePhotos,
   addFavorite,
   toggleFavorite,
   removeFavorite,
