@@ -8,6 +8,7 @@ export const Container = styled.div`
     height: 300px;
 	position: relative;
     overflow: hidden;
+    margin-bottom: 20px;
     &:hover {
         box-shadow: 0 2px 35px #000;
     }

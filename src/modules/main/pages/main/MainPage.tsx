@@ -1,5 +1,5 @@
 import Topbar from 'design-system/topbar';
-import PhotosPage from 'modules/photos/pages/cards/PhotosPage';
+import PhotosPage from 'modules/photos/pages/photos/PhotosPage';
 
 function MainPage() {
   return (

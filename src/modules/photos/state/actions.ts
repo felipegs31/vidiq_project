@@ -14,6 +14,9 @@ const fetchPhotosError = (errors: string) =>
 const setPagePhotos = (page: number) =>
   action(ActionTypes.SET_PAGE_PHOTOS, { page })
 
+const toggleFavorite = (photo: Photo) =>
+  action(ActionTypes.TOGGLE_FAVORITE, { photo })
+
 const addFavorite = (photo: Photo) =>
   action(ActionTypes.ADD_FAVORITE, { photo })
 
@@ -30,6 +33,7 @@ export {
   fetchPhotosError,
   setPagePhotos,
   addFavorite,
+  toggleFavorite,
   removeFavorite,
   setTabPhotos
 }

@@ -10,6 +10,7 @@ export const ActionTypes = {
 	SET_PAGE_PHOTOS: '@@photos/SET_PAGE_PHOTOS',
 
 	ADD_FAVORITE: '@@photos/ADD_FAVORITE',
+	TOGGLE_FAVORITE: '@@photos/TOGGLE_FAVORITE',
 	REMOVE_FAVORITE: '@@photos/REMOVE_FAVORITE',
 
 	SET_TAB_PHOTOS: '@@photos/SET_TAB_PHOTOS',

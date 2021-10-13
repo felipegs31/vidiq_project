@@ -54,6 +54,43 @@ const setTabPhotos = (state: IPhotosState, action: ActionTypeTS): IPhotosState =
   }
 }
 
+const toggleFavorite = (state: IPhotosState, action: ActionTypeTS): IPhotosState => {
+  const { photo } = action.payload
+
+  const favoritesClone = { ...state.favorites }
+  const photosClone = [ ...state.photos ]
+
+  if (!isEmpty(favoritesClone[photo.id])) {
+    // remove favorite
+    delete favoritesClone[photo.id];
+    const photoIndex = photosClone.findIndex(clone => clone.id === photo.id)
+    if (photoIndex > -1) {
+      photosClone[photoIndex].favorite = false
+    }
+
+    return {
+      ...state,
+      favorites: favoritesClone,
+      photos: photosClone
+    }
+  } else {
+    // add favorite
+    favoritesClone[photo.id] = photo
+    const photoIndex = photosClone.findIndex(clone => clone.id === photo.id)
+    if (photoIndex > -1) {
+      photosClone[photoIndex].favorite = true
+    }
+
+    return {
+      ...state,
+      favorites: favoritesClone,
+      photos: photosClone
+    }
+  }
+
+  
+}
+
 const addFavorite = (state: IPhotosState, action: ActionTypeTS): IPhotosState => {
   const { photo } = action.payload
 
@@ -104,6 +141,8 @@ export const photosReducer = (state: IPhotosState = initialState,
       return setPagePhotos(state, action)
     case ActionTypes.SET_TAB_PHOTOS:
       return setTabPhotos(state, action)
+    case ActionTypes.TOGGLE_FAVORITE:
+      return toggleFavorite(state, action)
     case ActionTypes.ADD_FAVORITE:
       return addFavorite(state, action)
     case ActionTypes.REMOVE_FAVORITE:
