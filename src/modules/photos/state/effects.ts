@@ -1,4 +1,4 @@
-import { put, select } from 'redux-saga/effects'
+import { put, select, call } from 'redux-saga/effects'
 import * as actions from './actions'
 import { photoService } from '../service/photo.service';
 import { Photo } from '../models/photo'
@@ -15,8 +15,8 @@ export function* handleFetch(action: IMetaAction): Generator {
 	const appendToArray = action.type === ActionTypes.NEXT_PAGE_PHOTOS
 
 	try {
-		const response: any = yield photoService.get(page)
-    
+		const response: any = yield call(photoService.get, page)
+
 		yield put(actions.fetchPhotosSuccess(response.data as Photo[], appendToArray))
 	} catch (error) {
 		if (error instanceof Error) {

@@ -3,7 +3,7 @@ import { IPhotosState, ActionTypes, ActionTypeTS } from './types'
 import { isEmpty } from 'lodash'
 import { Photo } from '../models/photo'
 
-const initialState: IPhotosState = {
+export const initialState: IPhotosState = {
     photos: [],
 	  loading: false,
     loadingNextPage: false,
@@ -28,6 +28,7 @@ const fetchPhotos = (state: IPhotosState): IPhotosState => {
 
 const fetchPhotosSuccess = (state: IPhotosState, action: ActionTypeTS): IPhotosState => {
   let { photos, appendToArray } = action.payload
+
   photos.forEach((photo: Photo) => {
     photo.favorite = !isEmpty(state.favorites[photo.id])
   });
@@ -112,8 +113,10 @@ const toggleFavorite = (state: IPhotosState, action: ActionTypeTS): IPhotosState
 }
 
 
-export const photosReducer = (state: IPhotosState = initialState,
-  action: ActionTypeTS): IPhotosState => {
+export const photosReducer = (
+  state: IPhotosState = initialState,
+  action: ActionTypeTS 
+): IPhotosState => {
 	switch (action.type) {
     case ActionTypes.FETCH_PHOTOS:
       return fetchPhotos(state)
