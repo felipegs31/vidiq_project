@@ -11,7 +11,7 @@ import { ActionTypes } from './types';
 export function* handleFetch(action: IMetaAction): Generator {
 	const page: any = yield select((state: IApplicationState) =>
 		state.photos.page);
-	
+
 	const appendToArray = action.type === ActionTypes.NEXT_PAGE_PHOTOS
 
 	try {
